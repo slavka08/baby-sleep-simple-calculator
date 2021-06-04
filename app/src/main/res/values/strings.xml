@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">SleepCalc</string>
+    <string name="wakeup_time">Время подъема:</string>
+    <string name="time_go_to_bed">Время укладывания:</string>
+    <string name="time_to_play">Времени бодрствования:</string>
 </resources>

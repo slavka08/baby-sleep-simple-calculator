@@ -6,19 +6,24 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import by.slavintodron.sleepcalc.databinding.ActivityMainBinding
+import java.lang.IllegalArgumentException
 import java.time.ZoneOffset.UTC
 import java.util.*
 import java.util.Calendar.*
+import java.util.TimeZone.getTimeZone
+import kotlin.collections.AbstractCollection
 
 
-private lateinit var binding: ActivityMainBinding
-var wakeUpTime: Calendar = Calendar.getInstance()
-var playTime: Calendar = Calendar.getInstance()
-var resultTime: Calendar = Calendar.getInstance()
+
+var wakeUpTime: Calendar = getInstance()
+var playTime: Calendar = getInstance()
+var resultTime: Calendar = getInstance()
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
     private var sleepTime = TimeCalc()
     val TAG = "BABY_SLEEP"
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,22 +42,22 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.datetimePickerWakeUp.setOnTimeChangedListener { view, hourOfDay, minute ->
-            var cldr = getInstance() //GregorianCalendar(TimeZone.getTimeZone("UTC"));
+            val cldr = getInstance() //GregorianCalendar(TimeZone.getTimeZone("UTC"));
             cldr.clear()
 
             cldr.set(HOUR_OF_DAY, hourOfDay)
             cldr.set(MINUTE, minute)
             cldr.set(SECOND, 0)
             cldr.set(MILLISECOND, 0)
-           //cldr.timeZone = "UTC+7:00";
+            //cldr.timeZone = "UTC+7:00";
             sleepTime.SetWakeUpCalendar(cldr)
             Log.i(TAG, "cldr =\t" + cldr.getTime().getTime().toString())
-            binding.editTextTimePlay.setText(sleepTime.timeWhenGoToBed())
+            binding.textTimePlay.setText(sleepTime.timeWhenGoToBed())
 
         }
 
         binding.datetimePickerPlay.setOnTimeChangedListener { view, hourOfDay, minute ->
-            var cldr = GregorianCalendar(TimeZone.getTimeZone("UTC"));
+            val cldr = GregorianCalendar(getTimeZone("UTC"));
 
             cldr.clear()
             cldr.set(HOUR_OF_DAY, hourOfDay)
@@ -60,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
             sleepTime.SetTimeOfPlay(cldr)
 
-            binding.editTextTimePlay.setText(sleepTime.timeWhenGoToBed())
+            binding.textTimePlay.setText(sleepTime.timeWhenGoToBed())
         }
     }
 }
